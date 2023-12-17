@@ -11,7 +11,7 @@
 	<groupId>com.scalesec</groupId>
 	<artifactId>vulnado</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Vulnerable Application By ASecurityGuru</name>
+	<name>Vulnerable Application </name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
