@@ -1,0 +1,37 @@
+pipeline {
+    agent any
+    
+    environment {
+        SONAR_TOKEN = credentials('sonar_token')
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                // Checkout your source code from the main branch of version control (e.g., Git)
+                git branch: 'main', url: 'https://github.com/kapilalgo/jenkins-sonar-sample.git'
+            }
+        }
+
+        stage('SonarCloud Analysis') {
+            steps {
+                script {
+                    withSonarQubeEnv('SonarCloud') {
+                        // Run SonarCloud analysis
+                        sh 'ls -l'
+                        //sh 'cd jenkins-sonar-sample'
+                        
+                        //sh '/opt/apache-maven-3.9.6/bin/mvn sonar:sonar -Dsonar.login=${SONAR_TOKEN} -f /var/lib/jenkins/workspace/sonar-job/my-app/pom.xml'
+                        //sh '/opt/apache-maven-3.9.6/bin/mvn sonar:sonar -Dsonar.login=${SONAR_TOKEN} -Dsonar.projectKey=self-org_algo -f /var/lib/jenkins/workspace/sonar-job/my-app/pom.xml'
+                        sh '/opt/apache-maven-3.9.6/bin/mvn clean verify sonar:sonar \
+                            -Dsonar.organization=kapilalgo \
+                            -Dsonar.projectKey=kapilalgo \
+                            -Dsonar.host.url=https://sonarcloud.io \
+                            -Dsonar.login=${SONAR_TOKEN} '
+                    }
+                }
+            }
+        }
+    }
+}
+
